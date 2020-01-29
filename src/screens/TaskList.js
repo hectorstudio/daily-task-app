@@ -19,19 +19,25 @@ import Task from '../components/Task';
 import AddTask from '../screens/AddTask';
 
 import commonStyles from '../commonStyles';
-
 import todayImage from '../../assets/imgs/today.jpg';
+
+const initialState = {
+  showDoneTasks: true,
+  showAddTask: false,
+  visibleTasks: [],
+  tasks: [],
+};
 
 export default class screens extends Component {
   state = {
-    showDoneTasks: true,
-    showAddTask: false,
-    visibleTasks: [],
-    tasks: [],
+    ...initialState,
   };
 
-  componentDidMount = () => {
-    this.filterTasks();
+  componentDidMount = async () => {
+    const tasksStateString = await AsyncStorage.getItem('tasksState');
+    const state = JSON.parse(tasksStateString) || initialState;
+
+    this.setState(state);
   };
 
   toggleFilter = () => {

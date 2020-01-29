@@ -25,7 +25,9 @@ export default function Task(props) {
 
   const getRightContent = () => {
     return (
-      <TouchableOpacity onPress={() => {}} style={styles.right}>
+      <TouchableOpacity
+        onPress={() => props.onDelete && props.onDelete(props.id)}
+        style={styles.right}>
         <Icon name="trash" size={30} color="#fff" />
       </TouchableOpacity>
     );
@@ -33,7 +35,7 @@ export default function Task(props) {
 
   const getLeftContent = () => {
     return (
-      <View onPress={() => {}} style={styles.left}>
+      <View style={styles.left}>
         <Icon name="trash" size={20} color="#fff" />
         <Text style={styles.excludeTaskLeft}>Excluir</Text>
       </View>
@@ -43,9 +45,10 @@ export default function Task(props) {
   return (
     <Swipeable
       renderRightActions={getRightContent}
-      renderLeftActions={getLeftContent}>
+      renderLeftActions={getLeftContent}
+      onSwipeableLeftOpen={() => props.onDelete && props.onDelete(props.id)}>
       <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={() => props.toggleTask(props.id)}>
+        <TouchableWithoutFeedback onPress={() => props.onToggleTask(props.id)}>
           <View style={styles.taskContainer}>{getCheckView(props.doneAt)}</View>
         </TouchableWithoutFeedback>
         <View>
@@ -118,6 +121,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   left: {
+    flex: 1,
     backgroundColor: 'red',
     alignItems: 'center',
     flexDirection: 'row',

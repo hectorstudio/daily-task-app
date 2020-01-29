@@ -37,7 +37,7 @@ export default class screens extends Component {
     const tasksStateString = await AsyncStorage.getItem('tasksState');
     const state = JSON.parse(tasksStateString) || initialState;
 
-    this.setState(state);
+    this.setState(state, this.filterTasks);
   };
 
   toggleFilter = () => {
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   subTitle: {
     fontFamily: commonStyles.fontFamily,
     color: commonStyles.colors.secondary,
-    fontSize: 20,
+    fontSize: 18,
     marginLeft: 20,
     marginBottom: 30,
   },

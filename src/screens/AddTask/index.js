@@ -44,7 +44,7 @@ export default class AddTask extends Component {
 
     const dateString = moment(this.state.date)
       .locale('pt-br')
-      .format('ddd, D [de] MMMM [de] YYYY');
+      .format('dddd, D [de] MMMM [de] YYYY');
 
     if (Platform.OS === 'android') {
       datePicker = (

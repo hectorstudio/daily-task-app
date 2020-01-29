@@ -21,7 +21,7 @@ export default function Task(props) {
   const date = props.doneAt ? props.doneAt : props.estimateAt;
   const formattedDate = moment(date)
     .locale('pt-br')
-    .format('ddd, D [de] MMMM [de] YYYY');
+    .format('dddd, D [de] MMMM [de] YYYY');
 
   const getRightContent = () => {
     return (

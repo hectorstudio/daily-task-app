@@ -26,20 +26,7 @@ export default class screens extends Component {
     showDoneTasks: true,
     showAddTask: false,
     visibleTasks: [],
-    tasks: [
-      {
-        id: Math.random(),
-        desc: 'Estudar React native',
-        estimateAt: new Date(),
-        doneAt: new Date(),
-      },
-      {
-        id: Math.random(),
-        desc: 'Estudar React com TypeScript',
-        estimateAt: new Date(),
-        doneAt: null,
-      },
-    ],
+    tasks: [],
   };
 
   componentDidMount = () => {
@@ -92,6 +79,11 @@ export default class screens extends Component {
     }
   };
 
+  deleteTask = id => {
+    const tasks = this.state.tasks.filter(task => task.id !== id);
+    this.setState({tasks}, this.filterTasks);
+  };
+
   render() {
     const today = moment()
       .locale('pt-br')
@@ -124,7 +116,11 @@ export default class screens extends Component {
             data={this.state.visibleTasks}
             keyExtractor={item => `${item.id}`}
             renderItem={({item}) => (
-              <Task {...item} toggleTask={this.toggleTask} />
+              <Task
+                {...item}
+                onToggleTask={this.toggleTask}
+                onDelete={this.deleteTask}
+              />
             )}
           />
         </View>

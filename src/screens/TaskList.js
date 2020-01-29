@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Platform,
   Alert,
+  StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -99,6 +100,7 @@ export default class screens extends Component {
 
     return (
       <View style={styles.container}>
+        <StatusBar backgroundColor="#ad0908" barStyle="light-content" />
         <AddTask
           isVisible={this.state.showAddTask}
           onCancel={() => this.setState({showAddTask: false})}
@@ -146,6 +148,7 @@ export default class screens extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ad0908',
   },
   background: {
     flex: 3,
@@ -160,9 +163,9 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: commonStyles.fontFamily,
     color: commonStyles.colors.secondary,
-    fontSize: 50,
+    fontSize: 30,
     marginLeft: 20,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   subTitle: {
     fontFamily: commonStyles.fontFamily,
@@ -175,7 +178,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginHorizontal: 20,
-    marginTop: Platform.OS === 'ios' ? 50 : 10,
+    marginTop: Platform.OS === 'ios' ? 50 : 20,
   },
   addButton: {
     position: 'absolute',
@@ -184,7 +187,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: commonStyles.colors.today,
+    backgroundColor: '#222',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   Platform,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -23,30 +24,12 @@ import todayImage from '../../assets/imgs/today.jpg';
 export default class screens extends Component {
   state = {
     showDoneTasks: true,
-    showAddTask: true,
+    showAddTask: false,
     visibleTasks: [],
     tasks: [
       {
         id: Math.random(),
         desc: 'Estudar React native',
-        estimateAt: new Date(),
-        doneAt: new Date(),
-      },
-      {
-        id: Math.random(),
-        desc: 'Estudar React JS',
-        estimateAt: new Date(),
-        doneAt: new Date(),
-      },
-      {
-        id: Math.random(),
-        desc: 'Estudar Node JS',
-        estimateAt: new Date(),
-        doneAt: new Date(),
-      },
-      {
-        id: Math.random(),
-        desc: 'Estudar React com TypeScript',
         estimateAt: new Date(),
         doneAt: new Date(),
       },
@@ -90,6 +73,25 @@ export default class screens extends Component {
     this.setState({tasks}, this.filterTasks);
   };
 
+  addTask = newTask => {
+    if (!newTask.desc || !newTask.desc.trim()) {
+      Alert.alert('Dados inválidos:', 'Descrição não informada!');
+      return;
+    } else {
+      const tasks = [...this.state.tasks];
+      tasks.push({
+        id: Math.random(),
+        desc: newTask.desc,
+        estimateAt: newTask.date,
+        doneAt: null,
+      });
+
+      this.setState({tasks, showAddTask: false}, this.filterTasks);
+
+      Alert.alert('Sucesso:', 'Task cadastrada');
+    }
+  };
+
   render() {
     const today = moment()
       .locale('pt-br')
@@ -100,13 +102,14 @@ export default class screens extends Component {
         <AddTask
           isVisible={this.state.showAddTask}
           onCancel={() => this.setState({showAddTask: false})}
+          onSave={this.addTask}
         />
         <ImageBackground source={todayImage} style={styles.background}>
           <View style={styles.iconBar}>
             <TouchableOpacity onPress={this.toggleFilter}>
               <Icon
                 name={this.state.showDoneTasks ? 'eye' : 'eye-slash'}
-                size={20}
+                size={30}
                 color={commonStyles.colors.secondary}
               />
             </TouchableOpacity>
@@ -125,6 +128,12 @@ export default class screens extends Component {
             )}
           />
         </View>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={styles.addButton}
+          onPress={() => this.setState({showAddTask: true})}>
+          <Icon name="plus" size={20} color={commonStyles.colors.secondary} />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -163,5 +172,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginHorizontal: 20,
     marginTop: Platform.OS === 'ios' ? 50 : 10,
+  },
+  addButton: {
+    position: 'absolute',
+    right: 30,
+    bottom: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: commonStyles.colors.today,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
